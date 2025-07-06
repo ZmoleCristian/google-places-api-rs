@@ -23,6 +23,9 @@ impl GooglePlacesAPI {
             api_key: String::from(
                 key,
             ),
+            #[cfg(feature = "rustls-tls")]
+            client: Client::builder().use_rustls_tls().build().unwrap(),
+            #[cfg(not(feature = "rustls-tls"))]
             client: Client::new(),
         }
     }
@@ -33,6 +36,9 @@ impl GooglePlacesAPI {
             api_key: String::from(
                 std::env::var("GOOGLE_PLACES_API_KEY").expect("GOOGLE_PLACES_API_KEY must be set."),
             ),
+            #[cfg(feature = "rustls-tls")]
+            client: Client::builder().use_rustls_tls().build().unwrap(),
+            #[cfg(not(feature = "rustls-tls"))]
             client: Client::new(),
         }
     }
